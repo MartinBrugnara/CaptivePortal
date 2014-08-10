@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Captive Portal</title>
+  <meta http-equiv="Content-Type" content="text/html">
+  <meta charset="utf-8">
+  <meta name="author" content="Martin Brugnara <martin.brugnara@gmail.com">
+
+  <style type="text/css">
+    section {
+      border: solid 1px #333;
+      padding: 5px;
+      color: #333;
+    }
+    section > header {font-size: 16pt;}
+
+    .warning {background-color: rgb(223, 117, 20)}
+    .error {background-color: rgb(202, 60, 60)}
+  </style>
+</head>
+<body>
+
+  <h1>Captive Portal</h1>
+
+  {{if .in_use}}
+  <section class="warning">
+    <header>Multiple connection not allowed</header>
+    It's seams you account is yet in use by another device:<br>
+    IP: {{.in_use_ip}} - MAC: {{.in_use_mac}}<br>
+    Connecting this device you will disconnect the other.
+  </section>
+  {{end}}
+
+  {{if .no_mac}}
+  <section class="error">
+    <header>Server Error</header>
+    We are unable to retrieve your MAC address.<br>
+    We can not authenticate you.
+  </section>
+  {{end}}
+
+  <form action="/" method="POST">
+    <input type="hidden" name="ip" value="{{.ip}}">
+    <input type="hidden" name="mac" value="{{.mac}}">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="username" placeholder="Password">
+    <button type="submit">Access</button>
+  </form>
+
+  <footer>
+    <a href="mailto:martin.brugnara@gmail.com">Martin Brugnara 2014</a> - Source: <a href="github.com/MartinBrugnara/CaptivePortal">GitHub</a>
+  </footer>
+</body>
+</html>
+
+
