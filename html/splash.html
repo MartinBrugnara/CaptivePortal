@@ -104,8 +104,8 @@
       <form action="/" method="POST">
         <input type="hidden" name="ip" value="{{.ip}}">
         <input type="hidden" name="mac" value="{{.mac}}">
-        <span class="desc">username:&nbsp;</span><input type="text" name="username"><br>
-        <span class="desc">password:&nbsp;</span><input type="password" name="password"><br>
+        <span class="desc">username:&nbsp;</span><input type="text" name="username" value="{.username}"><br>
+        <span class="desc">password:&nbsp;</span><input type="password" name="password" value=""><br>
         <button type="submit">Access</button>
       </form>
     {{end}}
