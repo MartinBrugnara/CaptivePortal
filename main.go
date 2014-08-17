@@ -1,4 +1,4 @@
-package main
+package captive
 
 import (
 	"flag"
@@ -41,7 +41,7 @@ func splash(w http.ResponseWriter, r *http.Request) {
 		cntx := map[string]interface{}{
 			"ip":     ip,
 			"mac":    mac,
-			"in_use": false,
+			"in_use": false, // TODO: Get From DB
 			"no_mac": len(mac) == 0,
 		}
 		t.Execute(w, cntx)

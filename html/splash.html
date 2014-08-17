@@ -7,49 +7,113 @@
   <meta name="author" content="Martin Brugnara <martin.brugnara@gmail.com">
 
   <style type="text/css">
-    section {
-      border: solid 1px #333;
-      padding: 5px;
-      color: #333;
-    }
-    section > header {font-size: 16pt;}
 
-    .warning {background-color: rgb(223, 117, 20)}
-    .error {background-color: rgb(202, 60, 60)}
+    /* Wrapper */
+    div.container {
+      width: 400px;
+      padding: 8px;
+      margin: auto;
+      margin-top: 50px;
+      border: 1px solid #333;
+      box-sizing: border-box;
+    }
+
+    /* Title */
+    header {
+      color: #333;
+      font-size: 26px;
+      font-weight: bold;
+      font-family: Verdana, sans-serif;
+      margin-bottom: 10px;
+    }
+
+    /* description */
+    header > span.small {
+      font-size: 20px; 
+      font-family: serif;
+      font-weight: normal;
+    }
+
+    /* input field name */
+    span.desc {
+      display: inline-block;
+      width: 132px;
+      margin: 0;
+      text-transform: capitalize;
+      font-family: monospace;
+      font-size: 20px;
+      box-sizing: border-box;
+
+    }
+
+    input, button {
+      font-size: 20px;
+      text-align: center;
+      font-family: monospace;
+      box-sizing: border-box;
+    }
+
+    input {width: 250px;}
+
+    button {
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Error handling */
+    span.no_auth {
+      width: 100%;
+      display: block;
+      color: red;
+      font-size: 16px;
+      font-family: monospace;
+    }
+
+    section.error {
+      font-size: 20px;
+      font-family: monospace;
+      color: white;
+      background-color: red;
+      padding: 4px;
+    }
   </style>
 </head>
 <body>
-
-  <h1>Captive Portal</h1>
-
-  {{if .in_use}}
-  <section class="warning">
-    <header>Multiple connection not allowed</header>
-    It's seams you account is yet in use by another device:<br>
-    IP: {{.in_use_ip}} - MAC: {{.in_use_mac}}<br>
-    Connecting this device you will disconnect the other.
-  </section>
-  {{end}}
-
-  {{if .no_mac}}
-  <section class="error">
-    <header>Server Error</header>
-    We are unable to retrieve your MAC address.<br>
-    We can not authenticate you.
-  </section>
-  {{end}}
-
-  <form action="/" method="POST">
-    <input type="hidden" name="ip" value="{{.ip}}">
-    <input type="hidden" name="mac" value="{{.mac}}">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="username" placeholder="Password">
-    <button type="submit">Access</button>
-  </form>
-
-  <footer>
-    <a href="mailto:martin.brugnara@gmail.com">Martin Brugnara 2014</a> - Source: <a href="github.com/MartinBrugnara/CaptivePortal">GitHub</a>
-  </footer>
+  <div class="container">
+    <header>
+      Captive Portal<br>
+      <span class="small">Authenticate to navigate</span>
+    </header>
+    <section name="content" class="{if .no_mac}}error{{end}}">
+      {{if .no_mac}}
+      <section name="error">
+        Internal server error: <br>
+        Failed retrieving your MAC address.<br>
+        *** We can not authenticate you. ***
+      </section>
+      {{else}}
+      {{if .no_auth}}
+      <span class="no_auth">Access denied: {{.no_auth_error}}</span>
+      {{endif}}
+      <form action="/" method="POST">
+        <input type="hidden" name="ip" value="{{.ip}}">
+        <input type="hidden" name="mac" value="{{.mac}}">
+        <span class="desc">username:&nbsp;</span><input type="text" name="username"><br>
+        <span class="desc">password:&nbsp;</span><input type="password" name="password"><br>
+        <button type="submit">Access</button>
+      </form>
+    {{end}}
+    </section>
+    <footer>
+      2014 <a href="mailto:martin.brugnara@gmail.com">Martin Brugnara</a> - Source code: <a href="https://github.com/MartinBrugnara/CaptivePortal">GitHub</a>
+    </footer>
+  </div>
 </body>
 </html>
 
